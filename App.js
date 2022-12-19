@@ -7,9 +7,14 @@ export default function App() {
   const [data, setData] = useState([]);
 
   fetch("http://localhost:2727/api/users/").then((response) => {
-    response.json().then((json) => {
-      setData(json);
-    });
+    response
+      .json()
+      .then((json) => {
+        setData(json);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   });
 
   return (
