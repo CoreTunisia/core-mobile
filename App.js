@@ -4,12 +4,23 @@ import { Button, StyleSheet, Text, View } from "react-native";
 
 export default function App() {
   const [count, setCount] = useState(0);
+  const [data, setData] = useState([]);
+
+  fetch("http://localhost:2727/api/users/").then((response) => {
+    response.json().then((json) => {
+      setData(json);
+    });
+  });
 
   return (
     <View style={styles.container}>
       <Button title='Click me' onPress={() => setCount(count + 1)} />
       <Text> Test !</Text>
       <Text>Count: {count}</Text>
+      {data?.map((item) => {
+        return <Text>{item.name}</Text>;
+      })}
+
       {/* make a footer */}
       <View style={{ flex: 1, justifyContent: "flex-end", marginBottom: 36 }}>
         <Text>My Footer</Text>
