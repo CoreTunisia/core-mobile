@@ -1,47 +1,47 @@
-import { StatusBar } from "expo-status-bar";
-import { useState } from "react";
-import { Button, StyleSheet, Text, View } from "react-native";
+import * as React from "react";
+import { Button, View, Text } from "react-native";
+import { NavigationContainer } from "@react-navigation/native";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import Login from "./src/screens/Login";
+import SignUp from "./src/screens/SignUp";
 
-export default function App() {
-  const [count, setCount] = useState(0);
-  const [data, setData] = useState([]);
+const Stack = createNativeStackNavigator();
 
-  fetch("http://localhost:2727/api/users/").then((response) => {
-    response
-      .json()
-      .then((json) => {
-        setData(json);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  });
-
+function App() {
   return (
-    <View style={styles.container}>
-      <Button title='Click me' onPress={() => setCount(count + 1)} />
-      <Text> Test !</Text>
-      <Text>Count: {count}</Text>
-      {data?.map((item) => {
-        return <Text>{item.name}</Text>;
-      })}
-
-      {/* make a footer */}
-      <View style={{ flex: 1, justifyContent: "flex-end", marginBottom: 36 }}>
-        <Text>My Footer</Text>
-
-        {/* make a button */}
-      </View>
-    </View>
+    <NavigationContainer>
+      <Stack.Navigator initialRouteName='Login'>
+        <Stack.Screen
+          name='Login'
+          component={Login}
+          options={{
+            title: "Login",
+            headerStyle: {
+              backgroundColor: "#f4511e",
+            },
+            headerTintColor: "#fff",
+            headerTitleStyle: {
+              fontWeight: "bold",
+            },
+          }}
+        />
+        <Stack.Screen
+          name='Sign Up'
+          component={SignUp}
+          options={{
+            title: "Sign Up",
+            headerStyle: {
+              backgroundColor: "#f4511e",
+            },
+            headerTintColor: "#fff",
+            headerTitleStyle: {
+              fontWeight: "bold",
+            },
+          }}
+        />
+      </Stack.Navigator>
+    </NavigationContainer>
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    marginTop: 50,
-    flex: 1,
-    backgroundColor: "#fff",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-});
+export default App;
